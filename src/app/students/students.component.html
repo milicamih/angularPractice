@@ -1,0 +1,30 @@
+<div class="students-container">
+    <div class="item1">List of all students</div>
+    <div class="left">
+        <p class="manageStudents"><b>Manage students</b></p>
+        <p class="manageStudents"><small>Please continue and add new student</small></p>
+        <button class="addButton"><i class="fa fa-plus"></i><br>
+            <span><small>Add student</small></span>
+        </button>
+    </div>
+    <div class="right">
+        <p class="select">Sort Students
+            <select>
+               <option value="by Name">by Name</option>
+               <option value="By Id">By Id</option>
+               <option value="By LastName">By LastName</option>
+            </select>
+       </p> 
+       
+       <ul class="students">
+           <li *ngFor="let student of students">
+              {{student.id}} {{student.name}} {{student.lastName}}
+           </li>
+       </ul>
+    </div>
+</div>
+
+
+
+
+

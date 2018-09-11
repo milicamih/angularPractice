@@ -1,0 +1,46 @@
+.students-container{
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+  }
+  .item1{
+    flex: 1 100%;
+    background-color:#d2d7db;
+    color:#6d6666;
+    font-size: 19px;
+    padding: 18px;
+  }
+  .left{
+    background-color:#f7f7f7;
+    flex:1 46%;
+    padding:18px;
+  }
+  .manageStudents{
+    margin: 0px;
+    color: #dde1e4;
+  }
+  .addButton{
+    display: block;
+    margin: auto;
+    margin-top: 100px;
+    width: 170px;
+    height: 119px;
+    background-color: white;
+    border: 2px solid grey;
+  }
+  .fa-plus{
+    font-size: 45px;
+  }
+  .right{
+    flex: 1 46%;
+    padding:18px;
+  }
+  .select{
+    text-align: right;
+    margin:0;
+  }
+  select{
+    background-color:#d2d7db;
+    border-radius: 20px; 
+    margin-left: 7px;
+  }

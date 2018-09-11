@@ -1,0 +1,41 @@
+<div class="students-container">
+    <div class="item1">List of all groups</div>
+    <div class="left-side">
+        <div class="flex">
+        <label class="manageStudents"><b>Manage student groups</b></label>
+        <label class="select-right">Sort Students
+            <select>
+               <option value="by Name">by Name</option>
+               <option value="By Id">By Id</option>
+               <option value="By LastName">By LastName</option>
+            </select>
+        </label> 
+        </div>
+        <p class="manageStudents"><small>Please continue and add new group</small></p>
+        <button class="addButton"><i class="fa fa-plus"></i><br>
+            <span><small>Add group</small></span>
+        </button>
+    </div>
+    <div class="right-side">
+        <div class="flex">
+        <label>Add student to group</label>
+        <label class="select-right">Sort Students
+            <select>
+               <option value="by Name">by Name</option>
+               <option value="By Id">By Id</option>
+               <option value="By LastName">By LastName</option>
+            </select>
+        </label> 
+       </div>
+       
+       <ul class="students">
+           <li *ngFor="let student of students">
+              {{group.id}} {{group.name}}
+           </li>
+       </ul>
+    </div>
+</div>
+
+
+
+
