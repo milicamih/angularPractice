@@ -7,6 +7,8 @@ import { StudentsComponent } from './students/students.component';
 import { GroupsComponent } from './groups/groups.component';
 import { PageNotFoundComponent } from './not-found.component';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 const appRoutes: Routes = [
   { path: '',   redirectTo: '/groups', pathMatch: 'full' },
   { path: 'students', component: StudentsComponent },
@@ -19,11 +21,12 @@ const appRoutes: Routes = [
     AppComponent,
     StudentsComponent,
     GroupsComponent, 
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot()
   ], 
   providers: [],
   bootstrap: [AppComponent]
