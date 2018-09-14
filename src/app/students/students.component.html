@@ -3,44 +3,42 @@
     <div class="left-side">
         <p class="manageLine"><b>Manage students</b></p>
         <p class="manageLine"><small>Please continue and add new student</small></p>
-        <button type="button" class="addButton btn btn-lg btn-outline-primary" 
-            (click)="open(content)">
+        <button type="button" class="addButton btn-outline-secondary" 
+            (click)="openModal(template)">
             <i class="fa fa-plus"></i><br>
             <span><small>Add student</small></span>
         </button>
-
-        <ng-template #content let-modal>
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
+           
+        <ng-template #template>
+          <div class="modal-header">
+              <h4 class="modal-title pull-left">Add new student</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="dateOfBirth">Date of birth</label>
-                  <div class="input-group">
-                    <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-                    </div>
-                  </div>
+          </div>
+          <div class="modal-body">
+            <form (submit)="addStudent(newName, newLastname)">
+              <div class="form-group">
+                <label>Student name</label>
+                <div class="input-group">
+                  <input id="dateOfBirth" class="form-control" placeholder="enter student name"
+                  name="name" [(ngModel)] = "name" #newName>
                 </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-            </div>
-          </ng-template>
-
-          <hr>
-
-<pre>{{closeResult}}</pre>
-          
-          
+              </div>
+              <div class="form-group">
+                <label for="dateOfBirth">Student lastname</label>
+                <div class="input-group">
+                  <input id="dateOfBirth" class="form-control" placeholder="enter student lastname"
+                  #newLastname>
+                </div>
+              </div>
+              <input type="submit" value="Add student" class="btn btn-primary btn-block">
+            </form>
+          </div>
+        </ng-template>
     </div>
-    <div class="right-side">
+
+    <div class="right-side"> <!--students list-->
         <p class="select select-right">Sort Students
             <select>
                <option value="by Name">by Name</option>
@@ -50,7 +48,7 @@
        </p> 
        
        <ul class="students">
-           <li *ngFor="let student of students">
+           <li *ngFor="let student of students" class="studentList">
               {{student.id}} {{student.name}} {{student.lastName}}
            </li>
        </ul>

@@ -88,4 +88,11 @@ select{
   text-align: right;
 }
 
+.studentList{
+  list-style-type: none;
+  background-color: #d2d7db;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+}
+
 

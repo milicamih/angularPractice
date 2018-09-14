@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, TemplateRef, OnInit } from '@angular/core';
 import { LocalStorageService } from '../shared/services/localstorage.service';
 import { Student } from '../shared/models/student';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
+
 
 @Component({
   selector: 'app-students',
@@ -11,35 +14,34 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class StudentsComponent implements OnInit {
 
   students: Student[] = [];
+  modalRef: BsModalRef;
 
-  constructor(private lsService: LocalStorageService) {
+  constructor(public lsService: LocalStorageService, private modalService: BsModalService) {
   }
 
   ngOnInit() {
-    this.students = this.lsService.getStudents();
+    this.students = this.lsService.getStudent();
   }
 
-}
-export class NgbdModalBasic {
-  closeResult: string;
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
-  constructor(private modalService: NgbModal) {}
-
-  open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  addStudent(newName: HTMLInputElement, newLastname: HTMLInputElement){
+    console.log("hi...", newName.value, newLastname.value);
+    this.lsService.addStudent({
+      
+       firstName: newName.value,
+       lastName: newLastname.value
     });
+    console.log(this.lsService.getStudent());
+    return false;
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
+  
 }
+
+ 
+ 
+
+
+
