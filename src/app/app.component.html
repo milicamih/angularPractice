@@ -1,8 +1,10 @@
 <div class="container">
   <nav class=left>
-      <h3 class="hedline">STUDENTS PLATFORM</h3>
-      <a class="routerlink" routerLink="/students" routerLinkActive="active">Students</a>
-      <a class="routerlink"routerLink="/groups" routerLinkActive="active">Groups</a>
+      <h4 class="hedline">STUDENTS PLATFORM</h4>
+      <a class="routerlink" routerLink="/students" 
+       routerLinkActive="active-link">Students</a>
+      <a class="routerlink" routerLink="/groups" 
+      [routerLinkActive]="['active-link']">Groups</a>   
   </nav>
   
   <div class="right">      

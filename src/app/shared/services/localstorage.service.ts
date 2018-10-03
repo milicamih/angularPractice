@@ -1,54 +1,56 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../models/student';
 import { Group } from '../models/group';
+import { StudentsComponent } from '../../students/students.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
-
   students: Student[];
+  firstName: string;
+  lastName: string;
 
   constructor(private lsService: LocalStorageService) { 
-      this.students = [
-        { firstName: "Milica", lastName: "Mihajlovic" },
-        {firstName: "Milica", lastName: "Opancucc" },
-      ];
-  }
-
- 
-  getStudent(): Student[] {
-    if(localStorage.getItem('students') === null) {
       this.students = [];
+  }
+  
+  
+  getStudent(): Student[] {
+    if(localStorage.getItem("students") === null) {
+      this.students = []; 
     } else {
-      this.students = JSON.parse(localStorage.getItem("students")); 
+      this.students = JSON.parse(localStorage.getItem("students"));
     }
+   
     return this.students;
   }
 
   addStudent(student: Student) : void{
-    this.students.unshift(student);
+    this.students.push(student);
     let students;
 
-    if(localStorage.getItem('students') === null) {
+    if(localStorage.getItem("students") === null) {
       students = [];
-      students.unshift(student);
-      localStorage.setItem('students', JSON.stringify(students));
-    }else {
-      students = JSON.parse(localStorage.getItem('students'));
-      students.unshift(student);
-      localStorage.setItem('students', JSON.stringify(students));
+      students.push(student);
+      localStorage.setItem("students", JSON.stringify(students));
+    }else{
+      JSON.parse(localStorage.getItem("students"));
+      students.push(student);
+      localStorage.setItem("students", JSON.stringify(students));
     }
-  } 
+ }
 
-  removeStudent (student: Student) {
-      for(let i=0; this.students.length; i++){
-        if (student == this.students[i]){
-          this.students.splice(i, 1);
-          localStorage.setItem('students', JSON.stringify(this.students));
-        }
-      }     
-  }
+      
+  removeStudent(student: Student) {
+    for(let i=0; this.students.length; i++) {
+      if(student == this.students[i]) {
+        this.students.splice(i, 1);
+        localStorage.setItem("students", JSON.stringify(this.students));
+      }
+    }
+  }    
+
  
 
 
@@ -73,11 +75,7 @@ export class LocalStorageService {
       
   }
 
-  // STUDENTS --------------------------------
-  //getStudents(): Student[] {
-  //return [];
-  //}
-
+ 
   createGroup(name: string) {
 
   }

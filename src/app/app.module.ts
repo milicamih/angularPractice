@@ -16,7 +16,7 @@ import { ModalModule } from "ngx-bootstrap";
 
  
 const appRoutes: Routes = [
-  { path: '',   redirectTo: '/groups', pathMatch: 'full' },
+  { path: '',   redirectTo: '/students', pathMatch: 'full' },
   { path: 'students', component: StudentsComponent },
   { path: 'groups', component: GroupsComponent },
   { path: '**', component: PageNotFoundComponent }

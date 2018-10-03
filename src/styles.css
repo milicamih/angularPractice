@@ -2,7 +2,6 @@
 
 
 body{
-    width: 80%;
     margin:0 auto;
     font-family: Arial, Helvetica, sans-serif;
   }
@@ -19,6 +18,7 @@ body{
 .hedline{
     color:white;
     text-align: center;
+    padding: 10px;
 }
 .routerlink{
   background-color: #303d4d;
@@ -28,8 +28,9 @@ body{
   text-decoration: none;
   margin: 0px;
 }
-.routerlink:hover, .routerlink:active{
+.routerlink:hover, .active-link{
     background-color:#4497e7;
+    text-decoration: none;
 }
 .right{
   flex:3;
@@ -93,6 +94,9 @@ select{
   background-color: #d2d7db;
   margin-bottom: 5px;
   padding: 5px 10px;
+  height: 35px;
 }
+
+
 
 
