@@ -1,41 +1,105 @@
 <div class="students-container">
+    <!--Headline of student componet-->
     <div class="top">List of all groups</div>
+    <!--left side container of student componet-->
     <div class="left-side">
         <div class="right-flex">
-        <label class="manageLine"><b>Manage student groups</b></label>
-        <label class="select-right">Sort Students
-            <select>
-               <option value="by Name">by Name</option>
-               <option value="By Id">By Id</option>
-               <option value="By LastName">By LastName</option>
-            </select>
-        </label> 
+            <label class="manageLine"><b>Manage student groups</b></label>
+            <label class="select-right">Sort Students
+                <select>
+                    <option value="by Name">by Name</option>
+                    <option value="By Id">By Id</option>
+                    <option value="By LastName">By LastName</option>
+                </select>
+            </label>
         </div>
         <p class="manageLine"><small>Please continue and add new group</small></p>
-        <button class="addButton"><i class="fa fa-plus"></i><br>
+        <!--Add group button-->
+        <button type="button" class="addButton btn-outline-secondary" (click)="openModal(template2)">
+            <i class="fa fa-plus"></i><br>
             <span><small>Add group</small></span>
         </button>
+        <!--template for Add group-->
+        <ng-template #template2>
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Add new group</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (submit)="addGroup(newGroupName)">
+                    <div class="form-group">
+                        <!--input field for group name-->
+                        <label for="GroupName">Group name</label>
+                        <input type="text" class="form-control" placeholder="enter group name" #newGroupName>
+                    </div>
+                    <button class="btn btn-primary btn-block" data-dismiss="modal" (click)="modalRef.hide()"> Add group</button>
+                </form>
+            </div>
+        </ng-template>
     </div>
+    <!--right side container of student componet-->
     <div class="right-side">
         <div class="right-flex">
-        <label>Add student to group</label>
-        <label class="select-right">Sort Students
-            <select>
-               <option value="by Name">by Name</option>
-               <option value="By Id">By Id</option>
-               <option value="By LastName">By LastName</option>
-            </select>
-        </label> 
-       </div>
-       
-       <ul class="students">
-           <li *ngFor="let student of students">
-              {{group.id}} {{group.name}}
-           </li>
-       </ul>
+            <!--Add student to group button-->
+            <label (click)="openAddingModal()">Add student to group</label>
+            <div class="select-right">Sort Students
+                <select (change)="changeWayOfSort($event)">
+                    <option disabled selected value style="display:none"> select an option </option>
+                    <option value="name">by Name</option>
+                    <option value="id">by id</option>
+                </select>
+            </div>
+             <!--template for Adding student to group-->
+            <ng-template #template4>
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">Add new student to group</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Chose group
+                        <select class="select-groups" (change)="selectGroup($event)">
+                            <option disabled selected value style="display:none"> select an option </option>
+                            <option *ngFor="let group of groups" value="{{group.id}}">{{group.id}}. {{group.name}}</option>
+                        </select>
+                    </label>
+                    <label>Chose student to add to a group
+                        <select class="select-students" (change)="selectStudent($event)">
+                            <option disabled selected value style="display:none"> select an option </option>
+                            <option *ngFor="let student of students" value="{{student.id}}">{{student.id}}. {{student.firstName}}
+                            {{student.lastName}}</option>
+                        </select>
+                    </label>
+                    <button class="btn btn-primary btn-block" (click)="addStudentToGroup()" (click)="modalRef.hide()"> Add student to group</button>
+                </div>
+            </ng-template>
+        </div>
+
+
+        <ul class="student group">
+            <li *ngFor="let group of groups">
+                <span class="badge group-badge">{{group.id}}</span>
+                {{group.name}}
+                <i class="fa fa-times pull-right" (click)="openRemoveModal1(group)"></i>
+                 
+                <div *ngFor="let category of group.categories">
+                    {{group.students.id}}. {{group.students.firstName}}
+                            {{group.students.lastName}}
+                </div>
+
+            </li>
+            <ng-template #template5>
+                <div class="modal-body text-center">
+                        <p>Do you want to confirm to delete student {{groupToRemove?.name}}</p>
+                  <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+                  <button type="button" class="btn btn-primary" (click)="modalRef.hide()" >No</button>
+                </div>
+            </ng-template>
+        </ul>
     </div>
+    <button (click)="setAllGroupsID()">Sett all students ID</button>
+
 </div>
-
-
-
-

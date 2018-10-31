@@ -88,15 +88,50 @@ select{
 .select-right{
   text-align: right;
 }
-
-.studentList{
+/*student list style*/
+.student{
+  margin: 0 0 2px 0;
   list-style-type: none;
-  background-color: #d2d7db;
-  margin-bottom: 5px;
-  padding: 5px 10px;
+  padding: 0;
+
+}
+.student li{
+  background-color:#f7f7f7;;
+  position: relative;
+  left: 0;
+  margin: 5px;
+  padding:0 5px 0px 0;
   height: 35px;
 }
-
-
+.student .badge {
+ background-color: #d2d7db;
+  line-height: 27px;
+  position: relative;
+  margin-right: 9px;
+  width: 34px;
+}
+.fa-times{
+  font-size: x-small;
+  color:#6d6666;
+}
+.group li{
+  background-color:#d2d7db;
+}
+.group-badge{
+  background-color: #303d4d !important;
+}
+/*template for ading students to group style*/
+.flex-box{
+  width: 300px;
+   display: flex;
+   justify-content: space-around;
+   flex-wrap: wrap;
+}
+.b{
+  width:500px;
+}
+.my-class{
+  display:block;
+}
 
 

@@ -1,7 +1,9 @@
 import { Student } from './student'
 
 export class Group {
-    id: number;
+
+  
+    id?: number;
     name: string;
-    students: Student[];
+    students?: Student[];
 }

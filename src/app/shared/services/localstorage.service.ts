@@ -7,85 +7,197 @@ import { StudentsComponent } from '../../students/students.component';
   providedIn: 'root'
 })
 export class LocalStorageService {
-  students: Student[];
-  firstName: string;
-  lastName: string;
 
-  constructor(private lsService: LocalStorageService) { 
-      this.students = [];
+  constructor(private lsService: LocalStorageService) {
   }
-  
-  
-  getStudent(): Student[] {
-    if(localStorage.getItem("students") === null) {
-      this.students = []; 
+
+  //STUDENTS -------------------------------
+
+  getStudents(): Student[] {
+    let students = localStorage.getItem("students");
+
+    if (students === null) {
+      return [];
     } else {
-      this.students = JSON.parse(localStorage.getItem("students"));
+      return JSON.parse(students);
     }
-   
-    return this.students;
   }
 
-  addStudent(student: Student) : void{
-    this.students.push(student);
-    let students;
+  addStudent(mm: Student): Student {
+    let students = this.getStudents();
 
-    if(localStorage.getItem("students") === null) {
-      students = [];
-      students.push(student);
-      localStorage.setItem("students", JSON.stringify(students));
-    }else{
-      JSON.parse(localStorage.getItem("students"));
-      students.push(student);
-      localStorage.setItem("students", JSON.stringify(students));
-    }
- }
+    mm.id = this.createIdSupper(students);
 
-      
-  removeStudent(student: Student) {
-    for(let i=0; this.students.length; i++) {
-      if(student == this.students[i]) {
-        this.students.splice(i, 1);
-        localStorage.setItem("students", JSON.stringify(this.students));
+    students.push(mm);
+    localStorage.setItem("students", JSON.stringify(students));
+
+    return mm;
+  }
+
+  setAllStudentsId() {
+    let students = this.getStudents();
+
+    for (let i = 0; i < students.length; i++) {
+      if (students[i].id == undefined) {
+        students[i].id = this.createId(students);
       }
     }
-  }    
+    localStorage.setItem("students", JSON.stringify(students));
+    console.log(students);
+  }
 
- 
+  removeStudent(studentToRemove: Student) {
+    let students = this.getStudents();
+    this.removeObjectFromArray(students, 'id', studentToRemove.id);
+    localStorage.setItem("students", JSON.stringify(students));
+  }
 
-
-
-
- 
- 
   // GROUPS ----------------------------------
   getGroups(): Group[] {
-    return [];
+    let groups = localStorage.getItem("groups");
+
+    if (groups === null) {
+      return [];
+    } else {
+      return JSON.parse(groups);
+    }
   }
 
-  createStudent(firstName: string, lastName: string) {
+  addGroup(groupName: Group): Group {
+    let groups = this.getGroups();
+    
 
+    groupName.id = this.createIdSupper(groups);
+
+    groups.push(groupName);
+    localStorage.setItem("groups", JSON.stringify(groups));
+
+    return groupName;
   }
 
-  deleteGroup(id: number) {
+  setAllGroupsId() {
+    let groups = this.getGroups();
 
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].id == undefined) {
+        groups[i].id = this.createId(groups);
+
+
+      }
+    }
+
+    localStorage.setItem("groups", JSON.stringify(groups));
+    console.log(groups);
   }
 
-  addStudentToGroup(groupId: number, studenId: number) {
-      
+
+  deleteGroup(id: Group): Group[] {
+    let groups = this.getGroups();
+
+    for (let i = 1; i < groups.length; i++) {
+      if (id = groups[i]) {
+        groups.splice(i, 1);
+        localStorage.setItem("groups", JSON.stringify(groups));
+        break;
+      }
+    }
+    return groups;
+  }
+
+  addStudentToGroup(studentToAddToGroup: Student, groupToAddStudent: Group) {
+    let groups = this.getGroups();
+    let students = this.getStudents();
+    let findGroup = this.findObjInArray(groups, "id", groupToAddStudent);
+    let findStudent = this.findObjInArray(students, "id", studentToAddToGroup);
+
+    if (!this.isNullOrUndefined(findGroup)) {
+      if(this.isNullOrUndefined(findGroup.studentsIds)) {
+        findGroup.studentsIds = [];
+      }
+     for(let i = 0; i < findGroup.studentsIds.length; i++){
+       if(findGroup.studentsIds[i].id== studentToAddToGroup){
+         return studentToAddToGroup;
+        }
+      } 
+      findGroup.studentsIds.push(findStudent);
+
+      localStorage.setItem("groups", JSON.stringify(groups));
+    }
   }
 
  
-  createGroup(name: string) {
-
-  }
-
-  deleteStudent(id: number) {
-
-  }
-
   // COMMON -----------------------------------
-  createId(table: string) {
+  isNullOrUndefined(value) {
+    return value === undefined || value === null;
+  }
+
+  removeObjectFromArray(objectsArray, property, value) {
+    var searchIndex = -1;
+
+    for (let i = 0; i < objectsArray.length; i++) {
+      var objValue = objectsArray[i][property];
+
+      if (objValue === value) {
+        searchIndex = i;
+        break;
+      }
+    }
+
+    if (searchIndex > -1) { objectsArray.splice(searchIndex, 1); }
+  }
+
+  findObjInArray(arrayData, prop, value) {
+    for (let i = 0; i < arrayData.length; i++) {
+      if (arrayData[i][prop] == value) {
+        return arrayData[i];
+      }
+    }
+  }
+  createId(data: any[]) {
+    let maxId = 0;
+    data.forEach(element => {
+      if (element.id > maxId) {
+        maxId = element.id;
+      }
+    });
+
+    return ++maxId;
+  }
+
+
+  createIdSupper(data: any[]) {
+    data.sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+
+    for (let i = 0; i < data.length; i++) {
+      if (i + 1 < data[i].id) {
+        return i + 1;
+      }
+    }
+    return data.length + 1;
 
   }
+
+  sortArrayByProperty(propertyName: string) {
+    return (a, b) => {
+      if (b[propertyName] > a[propertyName]) {
+        return -1;
+      } else if (b[propertyName] < a[propertyName]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+
+  changeWayOfSort(value:string) {
+    let groups = this.getGroups();
+    groups.sort(this.sortArrayByProperty(value));
+    localStorage.setItem("groups", JSON.stringify(groups));
+
+    return groups;
+  }
+
+ 
+
 }
