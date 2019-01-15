@@ -1,0 +1,37 @@
+<app-modal-wrapper>
+        <div class="app-modal-body">
+    
+            <div class="main-container">
+                <div class="header">
+                    <h3>Add new student</h3>
+                </div>
+    
+                <div class="body">
+                    <form #studentForm="ngForm">
+                        <!--Input field for first names-->
+                        <div class="form-group div-input ">
+                            <label for="firstName">Group Name</label>
+                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="model.firstName"
+                                name="firstName" #firstName="ngModel" placeholder="Enter student first name">
+                            <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">Name is
+                                required </div>
+                        </div>
+                        <!--Input field for last names-->
+                        <div class="form-group">
+                            <label for="lastName">Student lastName</label>
+                            <input type="text" class="form-control" id="LastName" required name="lastName" [(ngModel)]="model.lastName"
+                                name="lastName" #lastName="ngModel" placeholder="Enter student last ame">
+                            <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">Name is required
+                            </div>
+                        </div>
+                    </form>
+                </div>
+    
+                <div class="footer">
+                    <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+                    <button type="button" [disabled]="!studentForm.valid" class="btn btn-primary" (click)="clickOnConfirmationButton()">Confirm</button>
+                </div>
+            </div>
+    
+        </div>
+    </app-modal-wrapper>

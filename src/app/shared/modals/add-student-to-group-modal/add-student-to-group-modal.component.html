@@ -1,0 +1,33 @@
+<app-modal-wrapper>
+        <div class="app-modal-body">
+    
+            <div class="main-container">
+                <div class="header">
+                    <h3>Add student to group</h3>
+                </div>
+    
+                <div class="body">
+                    <label>Chose group
+                        <select class="select-groups" (change)="selectGroup($event)">
+                            <option disabled selected value style="display:none"> select an option </option>
+                            <option *ngFor="let group of groups" value="{{group.id}}">{{group.id}}. {{group.name}}</option>
+                        </select>
+                    </label>
+                    <label>Chose student to add to a group
+                        <select class="select-students" (change)="selectStudent($event)">
+                            <option disabled selected value style="display:none"> select an option </option>
+                            <option *ngFor="let student of students" value="{{student.id}}">{{student.id}}.
+                                {{student.firstName}}
+                                {{student.lastName}}</option>
+                        </select>
+                    </label>
+                </div>
+    
+                <div class="footer">
+                    <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+                    <button type="button"  class="btn btn-primary" (click)="clickOnConfirmationButton()">Confirm</button>
+                </div>
+            </div>
+    
+        </div>
+    </app-modal-wrapper>

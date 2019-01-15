@@ -1,21 +1,27 @@
 @import "~font-awesome/css/font-awesome.min.css";
 
-
+li{
+  list-style-type: none;
+}
 body{
     margin:0 auto;
     font-family: Arial, Helvetica, sans-serif;
   }
-.container{
-    display: flex;
-    flex-wrap:wrap;
+.main-flex-container{
+  display: flex;
+  flex-flow: wrap;
   }
-.left{
+.left-links-container{
   background-color: #303d4d;
   flex: 1;
   min-width: 220px;
   height: -webkit-fill-available;
 }  
-.hedline{
+.right-students-and-groups-wraper{
+  flex:3;
+  height: -webkit-fill-available;
+}
+.headline{
     color:white;
     text-align: center;
     padding: 10px;
@@ -32,25 +38,20 @@ body{
     background-color:#4497e7;
     text-decoration: none;
 }
-.right{
-  flex:3;
-  height: -webkit-fill-available;
-}
-
 /*students and groups style*/
-.students-container{
+.students-and-groups-flex-container{
   display: flex;
   flex-flow: row wrap;
   width: 100%;
 }
-.top{
+.top-of-students-and-groups-container{
   flex: 1 100%;
   background-color:#d2d7db;
   color:#6d6666;
   font-size: 19px;
   padding: 18px;
 }
-.left-side{
+.left-side-of-students-and-groups-container{
   background-color:#f7f7f7;
   flex:1 46%;
   padding:18px;
@@ -60,78 +61,97 @@ body{
   margin: 0px;
   color: #dde1e4;
 }
-.addButton{
+.add-students-and-groups-button{ 
   display: block;
   margin: auto;
   margin-top: 100px;
   width: 170px;
   height: 119px;
-  background-color: white;
-  border: 2px solid grey;
+  border: 1px solid grey;
 }
 .fa-plus{
   font-size: 45px;
 }
-.right-side{
+.right-side-of-students-and-groups-container{
   flex: 1 46%;
   padding:18px;
-}
-.right-flex{
- display:flex;
- justify-content: space-between; 
 }
 select{
   background-color:#d2d7db;
   border-radius: 20px; 
   margin-left: 7px;
+  outline: none;
 }
 .select-right{
   text-align: right;
 }
-/*student list style*/
-.student{
-  margin: 0 0 2px 0;
-  list-style-type: none;
-  padding: 0;
-
+.right-flex{
+ display:flex;
+ justify-content: space-between; 
 }
-.student li{
-  background-color:#f7f7f7;;
+/*inputs style*/
+div-input {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+input:-webkit-autofill{
+  background-color: white;
+}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #4497e7; /* blue */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+/*student and groups list style*/
+.student-list, .group-list-wraper{
+  margin: 0 0 2px 0;
+  padding: 3px;
+}
+.student-list li, .group-list-wraper{
+  background-color:#f7f7f7;
   position: relative;
   left: 0;
   margin: 5px;
   padding:0 5px 0px 0;
-  height: 35px;
+  height: fit-content;
 }
-.student .badge {
+.group-list-wraper{
+  background-color:#eae6e6;;
+}
+.student-list .badge, .group-list-wraper .badge  {
  background-color: #d2d7db;
   line-height: 27px;
   position: relative;
   margin-right: 9px;
   width: 34px;
+  border-radius: 4px;
+}
+.student-in-grooup:last-child{
+  margin-bottom: 14px;
+}
+.student-in-grooup:first-child{
+  margin-top: 14px;
+}
+.student-in-grooup{
+  background-color: #f7f7f7;
+  padding: 5px;
+  margin: 3px 5px 3px -3px;
+  border-top-left-radius: 9px;
 }
 .fa-times{
   font-size: x-small;
   color:#6d6666;
 }
-.group li{
-  background-color:#d2d7db;
-}
-.group-badge{
-  background-color: #303d4d !important;
-}
+
 /*template for ading students to group style*/
-.flex-box{
-  width: 300px;
-   display: flex;
-   justify-content: space-around;
-   flex-wrap: wrap;
+
+input:touched, input:pristine, select:focus, select:active{
+  outline:none;
+  box-shadow: none;
 }
-.b{
-  width:500px;
-}
-.my-class{
-  display:block;
-}
+
 
 

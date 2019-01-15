@@ -1,0 +1,10 @@
+<div (click)="onContainerClicked($event)" class="modal-custom fade" [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
+
+    <div class="transparent-div-around-modal"></div>
+
+    <div class="center-dialog-content">
+        <div>
+            <ng-content select=".app-modal-body"></ng-content>
+        </div>
+    </div>   
+</div>

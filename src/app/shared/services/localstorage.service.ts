@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Student } from '../models/student';
+import { Student } from "../models/Student";
 import { Group } from '../models/group';
-import { StudentsComponent } from '../../students/students.component';
+import { GroupExtended } from '../models/groupExtended';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +11,10 @@ export class LocalStorageService {
   constructor(private lsService: LocalStorageService) {
   }
 
-  //STUDENTS -------------------------------
 
+  // STUDENTS -------------------------------
   getStudents(): Student[] {
-    let students = localStorage.getItem("students");
+    const students = localStorage.getItem('students');
 
     if (students === null) {
       return [];
@@ -23,38 +23,38 @@ export class LocalStorageService {
     }
   }
 
-  addStudent(mm: Student): Student {
-    let students = this.getStudents();
+  addStudent(student: Student): Student {
+    const students = this.getStudents();
 
-    mm.id = this.createIdSupper(students);
+    student.id = this.createIdSupper(students);
 
-    students.push(mm);
-    localStorage.setItem("students", JSON.stringify(students));
+    students.push(student);
+    localStorage.setItem('students', JSON.stringify(students));
 
-    return mm;
+    return student;
   }
 
   setAllStudentsId() {
-    let students = this.getStudents();
+    const students = this.getStudents();
 
     for (let i = 0; i < students.length; i++) {
       if (students[i].id == undefined) {
         students[i].id = this.createId(students);
       }
     }
-    localStorage.setItem("students", JSON.stringify(students));
+    localStorage.setItem('students', JSON.stringify(students));
     console.log(students);
   }
 
   removeStudent(studentToRemove: Student) {
-    let students = this.getStudents();
+    const students = this.getStudents();
     this.removeObjectFromArray(students, 'id', studentToRemove.id);
-    localStorage.setItem("students", JSON.stringify(students));
+    localStorage.setItem('students', JSON.stringify(students));
   }
 
   // GROUPS ----------------------------------
   getGroups(): Group[] {
-    let groups = localStorage.getItem("groups");
+    const groups = localStorage.getItem('groups');
 
     if (groups === null) {
       return [];
@@ -64,78 +64,107 @@ export class LocalStorageService {
   }
 
   addGroup(groupName: Group): Group {
-    let groups = this.getGroups();
-    
+    const groups = this.getGroups();
 
     groupName.id = this.createIdSupper(groups);
 
     groups.push(groupName);
-    localStorage.setItem("groups", JSON.stringify(groups));
+    localStorage.setItem('groups', JSON.stringify(groups));
 
     return groupName;
   }
 
   setAllGroupsId() {
-    let groups = this.getGroups();
+    const groups = this.getGroups();
 
     for (let i = 0; i < groups.length; i++) {
       if (groups[i].id == undefined) {
         groups[i].id = this.createId(groups);
-
-
       }
     }
 
-    localStorage.setItem("groups", JSON.stringify(groups));
+    localStorage.setItem('groups', JSON.stringify(groups));
     console.log(groups);
   }
 
-
   deleteGroup(id: Group): Group[] {
-    let groups = this.getGroups();
+    const groups = this.getGroups();
+    const groupsExtended = this.getGroups();
 
     for (let i = 1; i < groups.length; i++) {
       if (id = groups[i]) {
         groups.splice(i, 1);
-        localStorage.setItem("groups", JSON.stringify(groups));
+        localStorage.setItem('groups', JSON.stringify(groups));
         break;
       }
     }
     return groups;
   }
 
-  addStudentToGroup(studentToAddToGroup: Student, groupToAddStudent: Group) {
-    let groups = this.getGroups();
-    let students = this.getStudents();
-    let findGroup = this.findObjInArray(groups, "id", groupToAddStudent);
-    let findStudent = this.findObjInArray(students, "id", studentToAddToGroup);
+  addStudentToGroup(selectedStudentId: number, selectedGroupId: number) {
+    const groups = this.getGroups();
+    const students = this.getStudents();
+    const findGroup = <Group>this.findObjInArray(groups, 'id', selectedGroupId);
+   
 
     if (!this.isNullOrUndefined(findGroup)) {
-      if(this.isNullOrUndefined(findGroup.studentsIds)) {
+      if (this.isNullOrUndefined(findGroup.studentsIds)) {
         findGroup.studentsIds = [];
       }
-     for(let i = 0; i < findGroup.studentsIds.length; i++){
-       if(findGroup.studentsIds[i].id== studentToAddToGroup){
-         return studentToAddToGroup;
-        }
-      } 
-      findGroup.studentsIds.push(findStudent);
-
-      localStorage.setItem("groups", JSON.stringify(groups));
+      findGroup.studentsIds.push(selectedStudentId);
+      localStorage.setItem('groups', JSON.stringify(groups));
     }
   }
 
- 
+  removeStudentFromGrooup(studentToRemove: Student, groupForRemovingStudent: Group) {
+    const groupsExtended = this.getGroups();
+    const students = this.getStudents();
+    const findGroup = <Group>this.findObjInArray(groupsExtended, 'id', groupForRemovingStudent.id);
+    const findStudent = <Student>this.findObjInArray(students, 'id', studentToRemove.id);
+
+    if (!this.isNullOrUndefined(findGroup) && !this.isNullOrUndefined(findStudent)) {
+      for (let i = 1; i < findGroup.studentsIds.length; i++) {
+        if (findStudent.id = findGroup.studentsIds[i]) {
+          findGroup.studentsIds.splice(i, 1);
+          break;
+        }
+      }
+      localStorage.setItem('groups', JSON.stringify(groupsExtended));
+    }
+  }
+  // EXTENDED GROUPS -----------------------------------
+  getGroupsExtended(): GroupExtended[] {
+    const groupExtended: GroupExtended[] = [];
+    const groups = this.getGroups();
+    const students = this.getStudents();
+
+    groups.forEach(item => {
+      const extGroup = new GroupExtended;
+      extGroup.id = item.id;
+      extGroup.name = item.name;
+      extGroup.students = [];
+
+      if (item.studentsIds) {
+        extGroup.students = item.studentsIds.map(item => {
+          return this.findObjInArray(students, 'id', item);
+        })
+      }
+
+      groupExtended.push(extGroup);
+    });
+
+    return groupExtended;
+  }
   // COMMON -----------------------------------
   isNullOrUndefined(value) {
     return value === undefined || value === null;
   }
 
   removeObjectFromArray(objectsArray, property, value) {
-    var searchIndex = -1;
+    let searchIndex = -1;
 
     for (let i = 0; i < objectsArray.length; i++) {
-      var objValue = objectsArray[i][property];
+      const objValue = objectsArray[i][property];
 
       if (objValue === value) {
         searchIndex = i;
@@ -146,11 +175,13 @@ export class LocalStorageService {
     if (searchIndex > -1) { objectsArray.splice(searchIndex, 1); }
   }
 
-  findObjInArray(arrayData, prop, value) {
+  findObjInArray(arrayData, prop, value): any {
     for (let i = 0; i < arrayData.length; i++) {
-      if (arrayData[i][prop] == value) {
+      if (arrayData[i][prop] === value) {
         return arrayData[i];
       }
+
+      //return null;
     }
   }
   createId(data: any[]) {
@@ -164,7 +195,6 @@ export class LocalStorageService {
     return ++maxId;
   }
 
-
   createIdSupper(data: any[]) {
     data.sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
 
@@ -174,7 +204,6 @@ export class LocalStorageService {
       }
     }
     return data.length + 1;
-
   }
 
   sortArrayByProperty(propertyName: string) {
@@ -186,18 +215,15 @@ export class LocalStorageService {
       } else {
         return 0;
       }
-    }
+    };
   }
 
-
-  changeWayOfSort(value:string) {
-    let groups = this.getGroups();
+  changeWayOfSort(value: string) {
+    const groups = this.getGroups();
     groups.sort(this.sortArrayByProperty(value));
-    localStorage.setItem("groups", JSON.stringify(groups));
+    localStorage.setItem('groups', JSON.stringify(groups));
 
     return groups;
   }
-
- 
 
 }

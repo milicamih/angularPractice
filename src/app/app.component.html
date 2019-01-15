@@ -1,13 +1,13 @@
-<div class="container">
-  <nav class=left>
-      <h4 class="hedline">STUDENTS PLATFORM</h4>
+<div class="main-flex-container">
+  <nav class="left-links-container">
+      <h4 class="headline">STUDENTS PLATFORM</h4>
       <a class="routerlink" routerLink="/students" 
        routerLinkActive="active-link">Students</a>
       <a class="routerlink" routerLink="/groups" 
       [routerLinkActive]="['active-link']">Groups</a>   
   </nav>
   
-  <div class="right">      
+  <div class="right-students-and-groups-wraper">      
       <router-outlet></router-outlet>    
   </div>
 </div>  
