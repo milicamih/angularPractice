@@ -46,12 +46,19 @@ export class LocalStorageService {
     console.log(students);
   }
 
-  removeStudent(studentToRemove: Student) {
+  removeStudent(id: number) {
     const students = this.getStudents();
-    this.removeObjectFromArray(students, 'id', studentToRemove.id);
+    this.removeObjectFromArray(students, 'id', id);
     localStorage.setItem('students', JSON.stringify(students));
   }
 
+  sortBy(value: string){
+    const students = this.getStudents();
+    students.sort(this.sortArrayByProperty(value));
+    localStorage.setItem('groups', JSON.stringify(students));
+
+    return students;
+  }
   // GROUPS ----------------------------------
   getGroups(): Group[] {
     const groups = localStorage.getItem('groups');
@@ -82,23 +89,20 @@ export class LocalStorageService {
         groups[i].id = this.createId(groups);
       }
     }
-
     localStorage.setItem('groups', JSON.stringify(groups));
     console.log(groups);
   }
 
-  deleteGroup(id: Group): Group[] {
+  deleteGroup(id: number) {
     const groups = this.getGroups();
-    const groupsExtended = this.getGroups();
 
-    for (let i = 1; i < groups.length; i++) {
-      if (id = groups[i]) {
+    for (let i = 0; i < groups.length; i++) {
+      if (id === groups[i].id) {
         groups.splice(i, 1);
         localStorage.setItem('groups', JSON.stringify(groups));
         break;
       }
     }
-    return groups;
   }
 
   addStudentToGroup(selectedStudentId: number, selectedGroupId: number) {
@@ -116,20 +120,20 @@ export class LocalStorageService {
     }
   }
 
-  removeStudentFromGrooup(studentToRemove: Student, groupForRemovingStudent: Group) {
-    const groupsExtended = this.getGroups();
+  removeStudentFromGrooup(studentToRemove: Student, groupForRemovingStudent: GroupExtended) {
+    const groups = this.getGroups();
     const students = this.getStudents();
-    const findGroup = <Group>this.findObjInArray(groupsExtended, 'id', groupForRemovingStudent.id);
-    const findStudent = <Student>this.findObjInArray(students, 'id', studentToRemove.id);
+    const findGroup = <Group>this.findObjInArray(groups, 'id', groupForRemovingStudent.id);
+   // const findStudent = <Student>this.findObjInArray(students, 'id', studentToRemove.id);
 
-    if (!this.isNullOrUndefined(findGroup) && !this.isNullOrUndefined(findStudent)) {
-      for (let i = 1; i < findGroup.studentsIds.length; i++) {
-        if (findStudent.id = findGroup.studentsIds[i]) {
+    if (!this.isNullOrUndefined(findGroup)) {
+      for (let i = 0; i < findGroup.studentsIds.length; i++) {
+        if (studentToRemove.id === findGroup.studentsIds[i]) {
           findGroup.studentsIds.splice(i, 1);
           break;
         }
       }
-      localStorage.setItem('groups', JSON.stringify(groupsExtended));
+      localStorage.setItem('groups', JSON.stringify(groups));
     }
   }
   // EXTENDED GROUPS -----------------------------------
@@ -149,10 +153,8 @@ export class LocalStorageService {
           return this.findObjInArray(students, 'id', item);
         })
       }
-
       groupExtended.push(extGroup);
     });
-
     return groupExtended;
   }
   // COMMON -----------------------------------
@@ -171,7 +173,6 @@ export class LocalStorageService {
         break;
       }
     }
-
     if (searchIndex > -1) { objectsArray.splice(searchIndex, 1); }
   }
 
@@ -180,10 +181,10 @@ export class LocalStorageService {
       if (arrayData[i][prop] === value) {
         return arrayData[i];
       }
-
       //return null;
     }
   }
+
   createId(data: any[]) {
     let maxId = 0;
     data.forEach(element => {
@@ -191,7 +192,6 @@ export class LocalStorageService {
         maxId = element.id;
       }
     });
-
     return ++maxId;
   }
 
@@ -219,11 +219,10 @@ export class LocalStorageService {
   }
 
   changeWayOfSort(value: string) {
-    const groups = this.getGroups();
-    groups.sort(this.sortArrayByProperty(value));
-    localStorage.setItem('groups', JSON.stringify(groups));
+     const groups = this.getGroupsExtended();
+     groups.sort(this.sortArrayByProperty(value));
+     localStorage.setItem('groups', JSON.stringify(groups));
 
-    return groups;
-  }
-
+     return groups;
+   }
 }

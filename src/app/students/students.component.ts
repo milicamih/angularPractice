@@ -1,4 +1,4 @@
-import { Component, TemplateRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalStorageService } from '../shared/services/localstorage.service';
 import { Student } from "../shared/models/Student";
 import { ConfirmationModalComponent } from '../shared/modals/confirmation-modal/confirmation-modal.component';
@@ -32,19 +32,15 @@ export class StudentsComponent implements OnInit {
   onClickRemoveStudent(student: Student) {
     this.confirmModal.show(`Do you want to confirm to delete student ${student.firstName} ${student.lastName}?`, () => {
       if (student !== null) {
-        this.lsService.removeStudent(student);
+        this.lsService.removeStudent(student.id);
         this.lsService.removeObjectFromArray(this.students, 'id', student.id);
       }
     });
   }
 
-  sortBy(property: string) {
-    this.students.sort(this.lsService.sortArrayByProperty(property));
+  sortBy(event) {
+    this.students.sort(this.lsService.sortArrayByProperty(event.currentTarget.value));
   }
-
-  // setAllStudentsID() {
-  //   this.lsService.setAllStudentsId();
-  // }
 }
 
 

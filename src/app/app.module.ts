@@ -16,7 +16,6 @@ import { ConfirmationModalComponent } from './shared/modals/confirmation-modal/c
 import { AddStudentModalComponent } from './shared/modals/add-student-modal/add-student-modal.component';
 import { AddGroupModalComponent } from './shared/modals/add-group-modal/add-group-modal.component';
 import { AddStudentToGroupModalComponent } from './shared/modals/add-student-to-group-modal/add-student-to-group-modal.component';
-import { ConfirmationModalRemoveStudentFromGroupComponent } from './shared/modals/confirmation-modal-remove-student-from-group/confirmation-modal-remove-student-from-group.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/students', pathMatch: 'full' },
@@ -37,7 +36,6 @@ const appRoutes: Routes = [
     AddStudentModalComponent,
     AddGroupModalComponent,
     AddStudentToGroupModalComponent,
-    ConfirmationModalRemoveStudentFromGroupComponent
   ],
   imports: [
     BrowserModule,

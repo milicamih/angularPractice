@@ -12,10 +12,11 @@
 
   <div class="right-side-of-students-and-groups-container">
     <p class="select select-right">Sort Students
-      <select>
-        <option value="by Name" (click)="sortBy('name')">by Name</option>
-        <option value="By Id" (click)="sortBy('id')">By Id</option>
-        <option value="By LastName" (click)="sortBy('lastName')">By LastName</option>
+      <select (change)="sortBy($event)">
+          <option disabled selected value style="display:none"> select an option </option>
+        <option value="firstName">Name</option>
+        <option value="id">Id</option>
+        <option value="lastName">Last Name</option>
       </select>
     </p>
     <!--Students list-->

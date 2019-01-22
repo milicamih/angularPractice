@@ -16,7 +16,7 @@
         <div class="right-flex">
             <!--Add student to group button-->
             <label (click)="onClickAddStudentToGroupGroup()">Add student to group</label>
-            <div class="select-right">Sort Students
+            <div class="select-right">Sort Groups
                 <select (change)="changeWayOfSort($event)">
                     <option disabled selected value style="display:none"> select an option </option>
                     <option value="name">by Name</option>
@@ -25,27 +25,24 @@
             </div>
         </div>
 
-
         <ul>
             <li class="" *ngFor="let groupExtended of groupsExtended">
                 <div class="group-list-wraper">
                    <span class="badge"><b>{{groupExtended.id}}.</b></span>
                    {{groupExtended.name}}
-                   <i class="fa fa-times pull-right" (click)="onClickRemoveGroup(group)"></i>
+                   <i class="fa fa-times pull-right" (click)="onClickRemoveGroup(groupExtended)"></i>
                 </div>
-              <ul>
-                   <li class="student-in-grooup" *ngFor="let g of groupExtended.students">
-                        {{g.id}}.  {{g.firstName}} {{g.lastName}}
-                        <i class="fa fa-times pull-right" (click)="onClickRemoveStudentFromGroup(student, group)"></i>
+                <ul>
+                   <li class="student-in-grooup" *ngFor="let student of groupExtended.students">
+                        {{student.id}}.  {{student.firstName}} {{student.lastName}}
+                        <i class="fa fa-times pull-right" (click)="onClickRemoveStudentFromGroup(student, groupExtended)"></i>
                     </li> 
                 </ul>
-            </li>
+            </li>    
         </ul>
     </div>
-    <button (click)="setAllStudents()">Sett all students ID</button>
 </div>
 
 <app-confirmation-modal></app-confirmation-modal>
 <app-add-group-modal></app-add-group-modal>
 <app-add-student-to-group-modal></app-add-student-to-group-modal>
-<app-confirmation-modal-remove-student-from-group></app-confirmation-modal-remove-student-from-group>
